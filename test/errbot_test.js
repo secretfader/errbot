@@ -4,6 +4,7 @@ var errbot = require('../')
 describe('#initialize', function () {
   it('should return an error with the supplied attributes', function () {
     var err = errbot.initialize(401, 'Bad Field', { errors: 'Bad Field' });
+    expect(err.isBot).to.equal(true);
     expect(err.message).to.equal('Bad Field');
     expect(err.code).to.equal(401);
     expect(err.data).to.have.property('errors');

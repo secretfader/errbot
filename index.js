@@ -8,6 +8,7 @@ exports.initialize = function (code, message, data) {
 
   var error = new Error(message ? message : undefined);
 
+  error.isBot  = true;
   error.status = http.STATUS_CODES[code] || 'Unknown';
   error.code   = code;
 
