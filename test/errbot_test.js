@@ -76,3 +76,35 @@ describe('Setting custom error message and data', function () {
     expect(err.data).to.have.property('fields');
   });
 });
+
+describe('Wrapping errors', function () {
+  describe('when it is an errbot object', function () {
+    it('should return the same object', function () {
+      var parent, sibling;
+
+      parent = errbot.initialize(404, 'Custom Error Message', {
+        title: 'Hello'
+      });
+
+      sibling = errbot.wrap(parent);
+
+      expect(sibling).to.equal(parent);
+    });
+  });
+
+  describe('when it is a generic Error object', function () {
+    it('should return a wrapped Error', function () {
+      var parent, sibling;
+
+      parent  = new Error();
+      sibling = errbot.wrap(parent, 409, 'Custom Error Message', {
+        ship: 'Enterprise'
+      });
+
+      expect(sibling.code).to.equal(409);
+      expect(sibling.message).to.equal('Custom Error Message');
+      expect(sibling).to.have.property('data');
+      expect(sibling.data.ship).to.equal('Enterprise');
+    });
+  });
+});

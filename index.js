@@ -1,5 +1,15 @@
 var http = require('http');
 
+exports.wrap = function (err, code, message, data) {
+  if (!err instanceof Error) {
+    throw new Error('errbot cannot wrap non-Error objects.');
+  }
+
+  if (err.isBot) return err;
+
+  return exports.initialize(code, message, data);
+}
+
 exports.initialize = function (code, message, data) {
   if ('object' === typeof(message)) {
     data = message;
